@@ -12,20 +12,14 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- checkout: self
 
 - task: Checkmarx AST@3
   displayName: "Run Checkmarx One Scan"
   inputs:
     CheckmarxService: 'Git-H'
     projectName: 'GitxAzure'
-    branchName: 'main'
+    branchName: '$(System.PullRequest.SourceBranch)'
     tenantName: 'ps_prayash_mishra'
     additionalParams: |
       --debug
